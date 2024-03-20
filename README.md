@@ -1,0 +1,1 @@
+# komik-game-object
