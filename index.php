@@ -5,19 +5,15 @@ class Produk
   public $judul,
     $penulis,
     $penerbit,
-    $harga,
-    $jmlHalaman,
-    $durasi;
+    $harga;
 
   // constructor, method yang otomatis dijalankan ketika instance object.
-  public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = "harga", $jmlHalaman = 0, $durasi = 0)
+  public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = "harga")
   {
     $this->judul = $judul;
     $this->penulis = $penulis;
     $this->penerbit = $penerbit;
     $this->harga = $harga;
-    $this->jmlHalaman = $jmlHalaman;
-    $this->durasi = $durasi;
   }
 
   public function getLabel()
@@ -33,11 +29,24 @@ class Produk
   }
 }
 
+
+// inheritance menggunakan keyword extends.
+// mendapatkan fungsionalitas dari class parent, termasuk property dan method.
 class Komik extends Produk
 {
+  public $jmlHalaman;
+
+  public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = "harga", $jmlHalaman = 0)
+  {
+    parent::__construct($judul, $penulis, $penerbit, $harga);
+
+    $this->jmlHalaman = $jmlHalaman;
+  }
+
   public function getInfoProduk()
   {
-    $str = "Komik: {$this->judul} - {$this->getLabel()} | Rp{$this->harga} - {$this->jmlHalaman} halaman.";
+    // overriding menggunakan methodstatic untuk mengambil method dari class parent.
+    $str = "Komik: " . parent::getInfoProduk() . " - {$this->jmlHalaman} halaman.";
 
     return $str;
   }
@@ -45,10 +54,20 @@ class Komik extends Produk
 
 class Game extends Produk
 {
+  public $durasi;
+
+  public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = "harga", $durasi = 0)
+  {
+    parent::__construct($judul, $penulis, $penerbit, $harga);
+
+    $this->durasi = $durasi;
+  }
+
   public function getInfoProduk()
   {
-    $str = "Game: {$this->judul} - {$this->getLabel()} | Rp{$this->harga} - {$this->durasi} jam.";
-
+    // overriding menggunakan method static untuk mengambil method dari class parent.
+    $str = "Game: " . parent::getInfoProduk() . " - {$this->durasi} jam.";
+    
     return $str;
   }
 }
@@ -64,8 +83,8 @@ class CetakInfoProduk
 }
 
 // instance object Produk
-$produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100, 0,);
-$produk2 = new Game("Red Dead Redemption 2", "Dan Houser", "Rockstar Games", 650000, 0, 50);
+$produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100);
+$produk2 = new Game("Red Dead Redemption 2", "Dan Houser", "Rockstar Games", 650000, 50);
 
 echo $produk1->getInfoProduk();
 echo "<br>";
