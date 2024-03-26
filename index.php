@@ -7,11 +7,10 @@ class Produk
     $penerbit,
     $harga,
     $jmlHalaman,
-    $durasi,
-    $tipe;
+    $durasi;
 
   // constructor, method yang otomatis dijalankan ketika instance object.
-  public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = "harga", $jmlHalaman = 0, $durasi = 0, $tipe)
+  public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = "harga", $jmlHalaman = 0, $durasi = 0)
   {
     $this->judul = $judul;
     $this->penulis = $penulis;
@@ -19,7 +18,6 @@ class Produk
     $this->harga = $harga;
     $this->jmlHalaman = $jmlHalaman;
     $this->durasi = $durasi;
-    $this->tipe = $tipe;
   }
 
   public function getLabel()
@@ -27,14 +25,29 @@ class Produk
     return "$this->penulis, $this->penerbit";
   }
 
-  public function getInfo()
+  public function getInfoProduk()
   {
-    $str = "{$this->tipe}: {$this->judul} - {$this->getLabel()} | Rp{$this->harga}";
-    if ($this->tipe == 'komik') {
-      $str .= " - {$this->jmlHalaman} halaman.";
-    } elseif ($this->tipe == 'game') {
-      $str .= " ~ {$this->durasi} jam.";
-    }
+    $str = "{$this->judul} - {$this->getLabel()} | Rp{$this->harga}";
+
+    return $str;
+  }
+}
+
+class Komik extends Produk
+{
+  public function getInfoProduk()
+  {
+    $str = "Komik: {$this->judul} - {$this->getLabel()} | Rp{$this->harga} - {$this->jmlHalaman} halaman.";
+
+    return $str;
+  }
+}
+
+class Game extends Produk
+{
+  public function getInfoProduk()
+  {
+    $str = "Game: {$this->judul} - {$this->getLabel()} | Rp{$this->harga} - {$this->durasi} jam.";
 
     return $str;
   }
@@ -51,9 +64,9 @@ class CetakInfoProduk
 }
 
 // instance object Produk
-$produk1 = new Produk("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100, 0, "komik");
-$produk2 = new Produk("Red Dead Redemption 2", "Dan Houser", "Rockstar Games", 650000, 0, 50, "game");
+$produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100, 0,);
+$produk2 = new Game("Red Dead Redemption 2", "Dan Houser", "Rockstar Games", 650000, 0, 50);
 
-echo $produk1->getInfo();
+echo $produk1->getInfoProduk();
 echo "<br>";
-echo $produk2->getInfo();
+echo $produk2->getInfoProduk();
