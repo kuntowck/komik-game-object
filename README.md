@@ -8,7 +8,7 @@ Repo berisi tutorial OOPHP dengan konten sebagai berikut:
 5. Inheritance.
 6. Overriding.
 7. Visibility / access modifier.
-8. Setter dan getter.
+8. Setter dan getter / accessor methods.
 9. Abstract class.
 10. Interface.
 11. Autoloading.
