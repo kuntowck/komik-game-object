@@ -1,6 +1,6 @@
 <?php
 
-class Produk
+abstract class Produk
 {
   // global: akses global
   // protected: akses parent dan child
@@ -75,12 +75,15 @@ class Produk
     return "$this->penulis, $this->penerbit";
   }
 
-  public function getInfoProduk()
+  public function getInfo()
   {
     $str = "{$this->judul} - {$this->getLabel()} | Rp{$this->harga}";
 
     return $str;
   }
+
+  // abstract public function getInfoProduk();
+  
 }
 
 
@@ -97,10 +100,10 @@ class Komik extends Produk
     $this->jmlHalaman = $jmlHalaman;
   }
 
-  public function getInfoProduk()
+  public function getInfo()
   {
     // overriding menggunakan methodstatic untuk mengambil method dari class parent.
-    $str = "Komik: " . parent::getInfoProduk() . " - {$this->jmlHalaman} halaman.";
+    $str = "Komik: " . $this->getInfo() . " - {$this->jmlHalaman} halaman.";
 
     return $str;
   }
@@ -117,10 +120,10 @@ class Game extends Produk
     $this->durasi = $durasi;
   }
 
-  public function getInfoProduk()
+  public function getInfo()
   {
     // overriding menggunakan method static untuk mengambil method dari class parent.
-    $str = "Game: " . parent::getInfoProduk() . " - {$this->durasi} jam.";
+    $str = "Game: " . $this->getInfo() . " - {$this->durasi} jam.";
 
     return $str;
   }
@@ -128,10 +131,22 @@ class Game extends Produk
 
 class CetakInfoProduk
 {
+  public $daftarProduk = [];
+
   // object type untuk menspesifikasi parameter menggunakan object sebagai tipe data
-  public function cetak(Produk $produk)
+  public function tambahProduk(Produk $produk)
   {
-    $str = "{$produk->getJudul()} - {$produk->getLabel()} | Rp{$produk->getHarga()}";
+    $this->daftarProduk[] = $produk;
+  }
+
+  public function cetak()
+  {
+    $str = "Daftar Produk: <br>";
+
+    foreach ($this->daftarProduk as $produk) {
+      $str .= "- {$produk->getInfoProduk()} <br>";
+    }
+
     return $str;
   }
 }
@@ -140,9 +155,7 @@ class CetakInfoProduk
 $produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100);
 $produk2 = new Game("Red Dead Redemption 2", "Dan Houser", "Rockstar Games", 650000, 50);
 
-echo $produk1->getInfoProduk();
-echo "<br>";
-echo $produk2->getInfoProduk();
-echo "<hr>";
-$produk2->setDiskon(50);
-echo $produk2->getHarga();
+$cetakProduk = new CetakInfoProduk();
+$cetakProduk->tambahProduk($produk1);
+$cetakProduk->tambahProduk($produk2);
+echo $cetakProduk->cetak();
