@@ -2,16 +2,14 @@
 
 class Produk
 {
-  // akses global
-  public $judul,
+  // global: akses global
+  // protected: akses parent dan child
+  // private: akses class tertentu
+  private $judul,
     $penulis,
-    $penerbit;
-
-  // akses parent dan child
-  protected $diskon;
-
-  // akses class tertentu
-  private $harga;
+    $penerbit,
+    $harga,
+    $diskon = 0;
 
   // constructor, method yang otomatis dijalankan ketika instance object.
   public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0)
@@ -19,6 +17,51 @@ class Produk
     $this->judul = $judul;
     $this->penulis = $penulis;
     $this->penerbit = $penerbit;
+    $this->harga = $harga;
+  }
+
+  public function setJudul($judul)
+  {
+    $this->judul = $judul;
+  }
+
+  public function getJudul()
+  {
+    return $this->judul;
+  }
+
+  public function setPenulis($penulis)
+  {
+    $this->penulis = $penulis;
+  }
+
+  public function getPenulis()
+  {
+    return $this->penulis;
+  }
+
+  public function setPenerbit($penerbit)
+  {
+    $this->penerbit = $penerbit;
+  }
+
+  public function getPenerbit()
+  {
+    return $this->penerbit;
+  }
+
+  public function setDiskon($diskon)
+  {
+    $this->diskon = $diskon;
+  }
+
+  public function getDiskon()
+  {
+    return $this->diskon;
+  }
+
+  public function setHarga($harga)
+  {
     $this->harga = $harga;
   }
 
@@ -74,11 +117,6 @@ class Game extends Produk
     $this->durasi = $durasi;
   }
 
-  public function setDiskon($diskon)
-  {
-    return $this->diskon = $diskon;
-  }
-
   public function getInfoProduk()
   {
     // overriding menggunakan method static untuk mengambil method dari class parent.
@@ -93,7 +131,7 @@ class CetakInfoProduk
   // object type untuk menspesifikasi parameter menggunakan object sebagai tipe data
   public function cetak(Produk $produk)
   {
-    $str = "{$produk->judul} - {$produk->getLabel()} | Rp{$produk->getHarga()}";
+    $str = "{$produk->getJudul()} - {$produk->getLabel()} | Rp{$produk->getHarga()}";
     return $str;
   }
 }
@@ -105,6 +143,6 @@ $produk2 = new Game("Red Dead Redemption 2", "Dan Houser", "Rockstar Games", 650
 echo $produk1->getInfoProduk();
 echo "<br>";
 echo $produk2->getInfoProduk();
-echo "<br>";
+echo "<hr>";
 $produk2->setDiskon(50);
 echo $produk2->getHarga();
