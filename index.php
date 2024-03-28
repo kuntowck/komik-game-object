@@ -1,11 +1,19 @@
 <?php
 
+// interface merupakan sebuah template untuk mengimplementasi class turunannya.
+interface getInfoProduk
+{
+  // interface tidak memiliki property
+  // interface hanya memiliki minimal 1 method declaration
+  public function getInfoProduk();
+}
+
 abstract class Produk
 {
   // global: akses global
   // protected: akses parent dan child
   // private: akses class tertentu
-  private $judul,
+  protected $judul,
     $penulis,
     $penerbit,
     $harga,
@@ -75,20 +83,13 @@ abstract class Produk
     return "{$this->penulis}, {$this->penerbit}";
   }
 
-  abstract public function getInfoProduk();
-
-  public function getInfo()
-  {
-    $str = "{$this->judul} - {$this->getLabel()} | Rp{$this->harga}";
-
-    return $str;
-  }
+  abstract public function getInfo();
 }
 
 
 // inheritance menggunakan keyword extends.
 // mendapatkan fungsionalitas dari class parent, yaitu property dan method.
-class Komik extends Produk
+class Komik extends Produk implements getInfoProduk
 {
   public $jmlHalaman;
 
@@ -97,6 +98,13 @@ class Komik extends Produk
     parent::__construct($judul, $penulis, $penerbit, $harga);
 
     $this->jmlHalaman = $jmlHalaman;
+  }
+
+  public function getInfo()
+  {
+    $str = "{$this->judul} - {$this->getLabel()} | Rp{$this->harga}";
+
+    return $str;
   }
 
   public function getInfoProduk()
@@ -108,7 +116,7 @@ class Komik extends Produk
   }
 }
 
-class Game extends Produk
+class Game extends Produk implements getInfoProduk
 {
   public $durasi;
 
@@ -117,6 +125,13 @@ class Game extends Produk
     parent::__construct($judul, $penulis, $penerbit, $harga);
 
     $this->durasi = $durasi;
+  }
+
+  public function getInfo()
+  {
+    $str = "{$this->judul} - {$this->getLabel()} | Rp{$this->harga}";
+
+    return $str;
   }
 
   public function getInfoProduk()
