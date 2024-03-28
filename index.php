@@ -72,8 +72,10 @@ abstract class Produk
 
   public function getLabel()
   {
-    return "$this->penulis, $this->penerbit";
+    return "{$this->penulis}, {$this->penerbit}";
   }
+
+  abstract public function getInfoProduk();
 
   public function getInfo()
   {
@@ -81,9 +83,6 @@ abstract class Produk
 
     return $str;
   }
-
-  // abstract public function getInfoProduk();
-  
 }
 
 
@@ -100,7 +99,7 @@ class Komik extends Produk
     $this->jmlHalaman = $jmlHalaman;
   }
 
-  public function getInfo()
+  public function getInfoProduk()
   {
     // overriding menggunakan methodstatic untuk mengambil method dari class parent.
     $str = "Komik: " . $this->getInfo() . " - {$this->jmlHalaman} halaman.";
@@ -120,7 +119,7 @@ class Game extends Produk
     $this->durasi = $durasi;
   }
 
-  public function getInfo()
+  public function getInfoProduk()
   {
     // overriding menggunakan method static untuk mengambil method dari class parent.
     $str = "Game: " . $this->getInfo() . " - {$this->durasi} jam.";
@@ -144,7 +143,7 @@ class CetakInfoProduk
     $str = "Daftar Produk: <br>";
 
     foreach ($this->daftarProduk as $produk) {
-      $str .= "- {$produk->getInfoProduk()} <br>";
+      $str .= "- {$produk->getInfo()} <br>";
     }
 
     return $str;
